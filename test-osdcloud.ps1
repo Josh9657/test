@@ -6,7 +6,7 @@ Set-ExecutionPolicy RemoteSigned -Force
 Install-Package -Name OSD -Force -SkipPublisherCheck
 
 Write-Host -ForegroundColor Green "Updating OSD Powershell Module"
-Install-Module OSD -Force
+Install-Module OSD -Force -SkipPublisherCheck
 
 Write-Host -ForegroundColor Green "Importing OSD Powershell Module"
 Import-Module OSD -Force
