@@ -45,6 +45,6 @@ try {
 Stop-Transcript
 
 # Redémarrage après exécution
-Write-Host -ForegroundColor Green "Restarting system in 5 seconds..."
-Start-Sleep -Seconds 5
+Write-Host -ForegroundColor Green "Restarting system in 60 seconds..."
+Start-Sleep -Seconds 60
 wpeutil reboot
