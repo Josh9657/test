@@ -1,17 +1,16 @@
-# Exemple de script hébergé sur GitHub pour exécution avec Invoke-WebPSScript
+# Debug pour afficher que le script a démarré
+Write-Host -ForegroundColor Green "Starting OSDCloud Configuration Script"
 
-Write-Host -ForegroundColor Green "Starting OSDCloud configuration..."
-
-# Définir la politique d'exécution temporaire
+# Définir une politique d'exécution temporaire
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
-# Installer ou mettre à jour le module OSD
+# Installer le module OSD
 try {
     Write-Host -ForegroundColor Green "Installing or updating OSD module..."
     Install-Module -Name OSD -Force -SkipPublisherCheck
     Write-Host -ForegroundColor Green "OSD module installed successfully."
 } catch {
-    Write-Host -ForegroundColor Red "Error installing OSD module: $($_.Exception.Message)"
+    Write-Host -ForegroundColor Red "Error during OSD module installation: $($_.Exception.Message)"
 }
 
 # Importer le module
@@ -20,19 +19,19 @@ try {
     Import-Module -Name OSD -Force
     Write-Host -ForegroundColor Green "OSD module imported successfully."
 } catch {
-    Write-Host -ForegroundColor Red "Error importing OSD module: $($_.Exception.Message)"
+    Write-Host -ForegroundColor Red "Error during OSD module import: $($_.Exception.Message)"
 }
 
-# Exécuter OSDCloud
+# Démarrer OSDCloud
 try {
     Write-Host -ForegroundColor Green "Starting OSDCloud..."
     Start-OSDCloud -OSLanguage fr-fr -OSName "Windows 11 23H2 x64" -OSLicense Retail -OSEdition Pro -Zti
     Write-Host -ForegroundColor Green "OSDCloud executed successfully."
 } catch {
-    Write-Host -ForegroundColor Red "Error starting OSDCloud: $($_.Exception.Message)"
+    Write-Host -ForegroundColor Red "Error during OSDCloud execution: $($_.Exception.Message)"
 }
 
-# Redémarrer si nécessaire
+# Redémarrage après exécution
 Write-Host -ForegroundColor Green "Restarting system in 5 seconds..."
 Start-Sleep -Seconds 5
 wpeutil reboot
