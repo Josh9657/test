@@ -41,9 +41,10 @@ try {
     Write-Host -ForegroundColor Red "Error during OSDCloud execution: $($_.Exception.Message)"
 }
 
+# Stop capture logs
+Stop-Transcript
+
 # Redémarrage après exécution
 Write-Host -ForegroundColor Green "Restarting system in 5 seconds..."
 Start-Sleep -Seconds 5
 wpeutil reboot
-
-Stop-Transcript
