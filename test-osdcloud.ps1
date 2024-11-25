@@ -4,6 +4,7 @@ start-sleep -Seconds 3
 Write-Host -ForegroundColor Yellow "Custom Debug ..."
 Set-ExecutionPolicy RemoteSigned -Force
 Install-Package -Name OSD -Force -SkipPublisherCheck
+Update-Module -Name OSD -Force 
 
 Write-Host -ForegroundColor Green "Updating OSD Powershell Module"
 Install-Module OSD -Force -SkipPublisherCheck
