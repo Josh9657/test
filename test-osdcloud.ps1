@@ -1,3 +1,13 @@
+# Créer un dossier pour stocker les logs
+$LogDirectory = "X:\Logs"
+if (-not (Test-Path -Path $LogDirectory)) {
+    New-Item -ItemType Directory -Path $LogDirectory
+}
+
+# Démarrer une transcription pour capturer toutes les sorties
+$LogFile = Join-Path -Path $LogDirectory -ChildPath "OSDCloud_Log.txt"
+Start-Transcript -Path $LogFile -Append
+
 # Debug pour afficher que le script a démarré
 Write-Host -ForegroundColor Green "Starting OSDCloud Configuration Script"
 
@@ -35,3 +45,5 @@ try {
 Write-Host -ForegroundColor Green "Restarting system in 5 seconds..."
 Start-Sleep -Seconds 5
 wpeutil reboot
+
+Stop-Transcript
