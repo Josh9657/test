@@ -1,20 +1,41 @@
-Write-Host -ForegroundColor Green "Starting OSDCloud ZTI ..."
-start-sleep -Seconds 3
+Write-Host -ForegroundColor Green "Starting OSDCloud ZTI"
+Start-Sleep -Seconds 3
 
-Write-Host -ForegroundColor Yellow "Custom Debug ..."
-Set-ExecutionPolicy RemoteSigned -Force
-Install-Package -Name OSD -Force -SkipPublisherCheck
-Update-Module -Name OSD -Force 
+# Désactiver les vérifications de signature temporairement
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
-Write-Host -ForegroundColor Green "Updating OSD Powershell Module"
-Install-Module OSD -Force -SkipPublisherCheck
+Write-Host -ForegroundColor Yellow "Custom Debug"
+
+# Vérification et installation du module OSD
+if (Get-Module -Name OSD -ListAvailable) {
+    Write-Host -ForegroundColor Yellow "OSD Module already available, skipping installation."
+} else {
+    Write-Host -ForegroundColor Green "Installing OSD Module..."
+    Install-Module -Name OSD -Force -SkipPublisherCheck
+}
 
 Write-Host -ForegroundColor Green "Importing OSD Powershell Module"
-Import-Module OSD -Force
+if (-not (Get-Module -Name OSD)) {
+    Import-Module -Name OSD -Force
+} else {
+    Write-Host -ForegroundColor Yellow "OSD Module already loaded."
+}
 
-Write-Host -ForegroundColor Green "Start OSD Cloud"
-Start-OSDCloud -OSLanguage fr-fr -OSName 'Windows 11 23H2 x64' -OSLicense Retail -OSEdition Pro -Zti
+# Débogage pour éviter l'exécution automatique
+$debugMode = $true  # Passez à $false pour activer l'exécution automatique
 
-Write-Host -ForegroundColor Green "Restarting ..."
-start-sleep -Seconds 5
-wpeutil reboot
+if ($debugMode) {
+    Write-Host -ForegroundColor Yellow "Debug mode enabled: Skipping Start-OSDCloud"
+} else {
+    Write-Host -ForegroundColor Green "Starting OSDCloud..."
+    Start-OSDCloud -OSLanguage fr-fr -OSName "Windows 11 23H2 x64" -OSLicense Retail -OSEdition Pro -Zti
+}
+
+# Empêcher le redémarrage automatique en mode debug
+if ($debugMode) {
+    Write-Host -ForegroundColor Yellow "Debug mode enabled: Skipping reboot"
+} else {
+    Write-Host -ForegroundColor Green "Restarting..."
+    Start-Sleep -Seconds 5
+    wpeutil reboot
+}
